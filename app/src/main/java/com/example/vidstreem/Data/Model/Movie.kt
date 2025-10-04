@@ -1,32 +1,46 @@
 package com.example.vidstreem.Data.Model
 
-import android.icu.text.SimpleDateFormat
-import java.util.Locale
+import com.google.gson.annotations.SerializedName
 
+// Represents a single movie/video item for listing
 data class Movie(
-    val contentType: String,
-    val description: String,
-    val fileName: String,
-    val hasThumbnail: Boolean,
     val id: Int,
-    val size: Int,
-    val thumbnailBase64: String,
-    val thumbnailContentType: String,
+    val contentType: String,
+    val uploadedOn: String,
     val title: String,
-    val uploadedOn: String
-){
-    fun getSizeInMB(): String {
-        return String.format("%.1f MB", size / (1024.0 * 1024.0))
-    }
+    val description: String?,
+    val size: Long,
+    val hasThumbnail: Boolean?,
+    val thumbnailUrl: String?,
+    val videoUrl: String
+)
 
-    fun getFormattedUploadDate(): String {
-        return try {
-            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SS", Locale.getDefault())
-            val outputFormat = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
-            val date = inputFormat.parse(uploadedOn)
-            outputFormat.format(date)
-        } catch (e: Exception) {
-            uploadedOn
-        }
-    }
-}
+
+data class MovieSection(
+    val title: String,
+    val movies: List<Movie>?
+)
+
+
+data class SearchResult(
+    @SerializedName("id")
+    val id: Int,
+
+    @SerializedName("title")
+    val title: String,
+
+    @SerializedName("contentType")
+    val contentType: String,
+
+    @SerializedName("uploadedOn")
+    val uploadedOn: String,
+
+    @SerializedName("videoUrl")
+    val videoUrl: String,
+
+    @SerializedName("thumbnailUrl")
+    val thumbnailUrl: String,
+
+    @SerializedName("size")
+    val size: Long
+)

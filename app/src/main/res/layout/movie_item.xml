@@ -13,8 +13,8 @@
         android:layout_width="140dp"
         android:layout_height="190dp"
         android:layout_marginBottom="8dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="4dp"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="10dp"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
         <ImageView
@@ -31,7 +31,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <!-- Play overlay on hover -->
         <ImageView

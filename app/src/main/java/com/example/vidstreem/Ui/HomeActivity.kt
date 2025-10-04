@@ -1,18 +1,16 @@
 package com.example.vidstreem.Ui
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.recyclerview.widget.*
-import com.example.vidstreem.Data.Api.RetrofitInstance
-import com.example.vidstreem.Data.Model.Movie
+import androidx.fragment.app.Fragment
 import com.example.vidstreem.R
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.vidstreem.Ui.Fragments.HomeFragment
+import com.example.vidstreem.Ui.Fragments.ProfileFragment
+import com.example.vidstreem.Ui.Fragments.SearchFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,34 +21,35 @@ class HomeActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
-        }
-        val recyclerView = findViewById<RecyclerView>(R.id.trendingMoviesRecyclerView )
-        val adapter = MovieAdapter(mutableListOf()) { movie ->
-            // Handle movie click
-        }
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(this)
+    }
+        val bottomNavigation: BottomNavigationView = findViewById(R.id.bottom_navigation)
 
-        RetrofitInstance.api.getMovies().enqueue(object : Callback<List<Movie>> {
-            override fun onResponse(
-                call: Call<List<Movie>?>,
-                response: Response<List<Movie>?>
-            ) {
-                if (response.isSuccessful) {
-                    response.body()?.let { movies ->
-                        adapter.updateMovies(movies)
-                    }
-                } else {
-                    Toast.makeText(this@HomeActivity, "Failed to fetch movies: ${response.message()}", Toast.LENGTH_LONG).show()
+        if (savedInstanceState == null) {
+            loadFragment(HomeFragment())
+            bottomNavigation.selectedItemId = R.id.nav_home
+        }
+        bottomNavigation.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_home -> {
+                    loadFragment(HomeFragment())
+                    true
                 }
-            }
+                R.id.nav_profile -> {
+                    loadFragment(ProfileFragment())
+                    true
+                }
+                R.id.nav_search->{
+                    loadFragment(SearchFragment())
+                    true
+                }
 
-            override fun onFailure(
-                call: Call<List<Movie>?>,
-                t: Throwable
-            ) {
-                Toast.makeText(this@HomeActivity, "Error: ${t.message}", Toast.LENGTH_LONG).show()
+                else -> false
             }
-        })
+        }
+    }
+    private fun loadFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .commit()
     }
 }
