@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0D0D0D"
+    android:orientation="vertical"
+    tools:context=".Ui.MovieDetailActivity">
+
+    <!-- Video Player Container with Enhanced Design -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/black">
+
+        <!-- Player View -->
+        <com.google.android.exoplayer2.ui.PlayerView
+            android:id="@+id/player_view"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            app:use_controller="true"
+            app:show_timeout="5000"
+            app:controller_layout_id="@layout/custom_player_controls"
+            app:resize_mode="fit"
+            app:surface_type="texture_view"
+            app:show_buffering="when_playing"/>
+
+        <!-- Loading Indicator -->
+        <FrameLayout
+            android:id="@+id/loading_container"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:background="#000000"
+            android:visibility="visible">
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                app:indicatorColor="@android:color/white"
+                app:trackColor="#33FFFFFF"
+                app:indicatorSize="48dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="72dp"
+                android:text="Loading..."
+                android:textColor="#CCFFFFFF"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif-medium"/>
+
+        </FrameLayout>
+
+
+    </FrameLayout>
+
+    <!-- Scrollable Content -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="250dp"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:id="@+id/details_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:visibility="visible">
+
+            <!-- Movie Title with Icon -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/movie_title_detail"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@android:color/white"
+                    android:textSize="26sp"
+                    android:fontFamily="sans-serif-black"
+                    android:lineSpacingExtra="2dp"
+                    tools:text="Inception"/>
+
+                <ImageButton
+                    android:id="@+id/favorite_button"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_favorite_border"
+                    android:contentDescription="Add to favorites"
+                    app:tint="#CCFFFFFF"/>
+
+            </LinearLayout>
+
+            <!-- Meta Info Row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <!-- Rating Badge -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="#1A4CAF50"
+                    app:cardCornerRadius="6dp"
+                    app:cardElevation="0dp">
+
+                    <TextView
+                        android:id="@+id/rating_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="4dp"
+                        android:text="8.5"
+                        android:textColor="#4CAF50"
+                        android:textSize="13sp"
+                        android:fontFamily="sans-serif-bold"
+                        android:drawableStart="@drawable/ic_star"
+                        android:drawablePadding="4dp"
+                        app:drawableTint="#4CAF50"/>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Year -->
+                <TextView
+                    android:id="@+id/year_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:text="2024"
+                    android:textColor="#CCFFFFFF"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"/>
+
+                <View
+                    android:layout_width="4dp"
+                    android:layout_height="4dp"
+                    android:layout_marginHorizontal="10dp"/>
+
+                <!-- Duration -->
+                <TextView
+                    android:id="@+id/duration_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2h 28m"
+                    android:textColor="#CCFFFFFF"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"/>
+
+                <View
+                    android:layout_width="4dp"
+                    android:layout_height="4dp"
+                    android:layout_marginHorizontal="10dp"/>
+
+                <!-- Quality Badge -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="HD"
+                    android:textColor="#FFD700"
+                    android:textSize="13sp"
+                    android:fontFamily="sans-serif-bold"
+                    android:paddingHorizontal="6dp"
+                    android:paddingVertical="2dp"/>
+
+            </LinearLayout>
+
+            <!-- Genre Chips -->
+<!--            <com.google.android.material.chip.ChipGroup-->
+<!--                android:id="@+id/genre_chips"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="16dp"-->
+<!--                app:chipSpacing="8dp">-->
+
+<!--                <com.google.android.material.chip.Chip-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Action"-->
+<!--                    android:textColor="@android:color/white"-->
+<!--                    app:chipBackgroundColor="#1AFFFFFF"-->
+<!--                    app:chipStrokeWidth="0dp"-->
+<!--                    style="@style/Widget.MaterialComponents.Chip.Action"/>-->
+
+<!--                <com.google.android.material.chip.Chip-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Sci-Fi"-->
+<!--                    android:textColor="@android:color/white"-->
+<!--                    app:chipBackgroundColor="#1AFFFFFF"-->
+<!--                    app:chipStrokeWidth="0dp"-->
+<!--                    style="@style/Widget.MaterialComponents.Chip.Action"/>-->
+
+<!--                <com.google.android.material.chip.Chip-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Thriller"-->
+<!--                    android:textColor="@android:color/white"-->
+<!--                    app:chipBackgroundColor="#1AFFFFFF"-->
+<!--                    app:chipStrokeWidth="0dp"-->
+<!--                    style="@style/Widget.MaterialComponents.Chip.Action"/>-->
+
+<!--            </com.google.android.material.chip.ChipGroup>-->
+
+            <!-- Action Buttons -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:gravity="center">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/download_button"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:text="Download"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp"
+                    android:fontFamily="sans-serif-medium"
+                    app:icon="@drawable/ic_download"
+                    app:iconTint="@android:color/white"
+                    app:iconGravity="textStart"
+                    app:cornerRadius="10dp"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="#33FFFFFF"
+                    app:backgroundTint="@android:color/transparent"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/share_button"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    android:text="Share"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp"
+                    android:fontFamily="sans-serif-medium"
+                    app:icon="@drawable/ic_share"
+                    app:iconTint="@android:color/white"
+                    app:iconGravity="textStart"
+                    app:cornerRadius="10dp"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="#33FFFFFF"
+                    app:backgroundTint="@android:color/transparent"/>
+
+            </LinearLayout>
+
+            <!-- Divider -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="24dp"
+                android:background="#1AFFFFFF"/>
+
+            <!-- Description Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Overview"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif-bold"/>
+
+            <TextView
+                android:id="@+id/movie_description_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:textColor="#CCFFFFFF"
+                android:textSize="15sp"
+                android:lineSpacingExtra="4dp"
+                android:fontFamily="sans-serif"
+                tools:text="This is a long description of the movie, explaining the plot, characters, and other interesting details that the user might want to read before watching."/>
+
+            <!-- Cast Section (Optional) -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Cast Crew"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif-bold"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/cast_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal"
+                android:clipToPadding="false"/>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
