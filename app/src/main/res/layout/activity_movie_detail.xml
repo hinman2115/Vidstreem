@@ -1,317 +1,221 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0D0D0D"
-    android:orientation="vertical"
-    tools:context=".Ui.MovieDetailActivity">
+    android:background="@color/white">
 
-    <!-- Video Player Container with Enhanced Design -->
-    <FrameLayout
+    <!-- Loading Container -->
+    <LinearLayout
+        android:id="@+id/loading_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/black">
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
 
-        <!-- Player View -->
-        <com.google.android.exoplayer2.ui.PlayerView
-            android:id="@+id/player_view"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            app:use_controller="true"
-            app:show_timeout="5000"
-            app:controller_layout_id="@layout/custom_player_controls"
-            app:resize_mode="fit"
-            app:surface_type="texture_view"
-            app:show_buffering="when_playing"/>
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateTint="#FFFFFF" />
 
-        <!-- Loading Indicator -->
-        <FrameLayout
-            android:id="@+id/loading_container"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:background="#000000"
-            android:visibility="visible">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Loading video..."
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" />
+    </LinearLayout>
 
-            <com.google.android.material.progressindicator.CircularProgressIndicator
-                android:id="@+id/progress_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:indeterminate="true"
-                app:indicatorColor="@android:color/white"
-                app:trackColor="#33FFFFFF"
-                app:indicatorSize="48dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="72dp"
-                android:text="Loading..."
-                android:textColor="#CCFFFFFF"
-                android:textSize="14sp"
-                android:fontFamily="sans-serif-medium"/>
-
-        </FrameLayout>
-
-
-    </FrameLayout>
-
-    <!-- Scrollable Content -->
+    <!-- Main Content -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="250dp"
         android:fillViewport="true">
 
         <LinearLayout
-            android:id="@+id/details_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp"
-            android:visibility="visible">
+            android:orientation="vertical">
 
-            <!-- Movie Title with Icon -->
+            <!-- Player View -->
+            <com.google.android.exoplayer2.ui.PlayerView
+                android:id="@+id/player_view"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:background="#000000"
+                app:controller_layout_id="@layout/custom_player_controls"
+                app:resize_mode="fit"
+                app:show_buffering="when_playing"
+                app:show_timeout="3000"
+                app:use_controller="true" />
+
+            <!-- Details Container -->
             <LinearLayout
+                android:id="@+id/details_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:background="#121212"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:visibility="gone">
 
+                <!-- Video Title -->
                 <TextView
                     android:id="@+id/movie_title_detail"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColor="@android:color/white"
-                    android:textSize="26sp"
-                    android:fontFamily="sans-serif-black"
-                    android:lineSpacingExtra="2dp"
-                    tools:text="Inception"/>
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
-                <ImageButton
-                    android:id="@+id/favorite_button"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:src="@drawable/ic_favorite_border"
-                    android:contentDescription="Add to favorites"
-                    app:tint="#CCFFFFFF"/>
-
-            </LinearLayout>
-
-            <!-- Meta Info Row -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-                <!-- Rating Badge -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="wrap_content"
+                <!-- Video Stats Row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardBackgroundColor="#1A4CAF50"
-                    app:cardCornerRadius="6dp"
-                    app:cardElevation="0dp">
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/rating_text"
+                        android:id="@+id/video_views"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingHorizontal="10dp"
-                        android:paddingVertical="4dp"
-                        android:text="8.5"
-                        android:textColor="#4CAF50"
-                        android:textSize="13sp"
-                        android:fontFamily="sans-serif-bold"
-                        android:drawableStart="@drawable/ic_star"
-                        android:drawablePadding="4dp"
-                        app:drawableTint="#4CAF50"/>
+                        android:text="1.2K views"
+                        android:textColor="#AAAAAA"
+                        android:textSize="13sp" />
 
-                </com.google.android.material.card.MaterialCardView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="•"
+                        android:textColor="#AAAAAA" />
 
-                <!-- Year -->
-                <TextView
-                    android:id="@+id/year_text"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/video_upload_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="2 days ago"
+                        android:textColor="#AAAAAA"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <!-- Action Buttons -->
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:text="2024"
-                    android:textColor="#CCFFFFFF"
-                    android:textSize="14sp"
-                    android:fontFamily="sans-serif-medium"/>
+                    android:layout_marginTop="16dp"
+                    android:scrollbars="none">
 
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_like"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:text="Like"
+                            android:textColor="#FFFFFF"
+                            app:iconTint="#FFFFFF"
+                            app:strokeColor="#3F3F3F" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_share"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:text="Share"
+                            android:textColor="#FFFFFF"
+                            app:icon="@drawable/ic_share"
+                            app:iconTint="#FFFFFF"
+                            app:strokeColor="#3F3F3F" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_download"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Download"
+                            android:textColor="#FFFFFF"
+                            app:icon="@drawable/ic_download"
+                            app:iconTint="#FFFFFF"
+                            app:strokeColor="#3F3F3F" />
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+                <!-- Divider -->
                 <View
-                    android:layout_width="4dp"
-                    android:layout_height="4dp"
-                    android:layout_marginHorizontal="10dp"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:background="#272727" />
 
-                <!-- Duration -->
+                <!-- Description Section -->
                 <TextView
-                    android:id="@+id/duration_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="2h 28m"
-                    android:textColor="#CCFFFFFF"
-                    android:textSize="14sp"
-                    android:fontFamily="sans-serif-medium"/>
+                    android:layout_marginTop="16dp"
+                    android:text="Description"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
+                <TextView
+                    android:id="@+id/movie_description_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:lineSpacingExtra="4dp"
+                    android:textColor="#CCCCCC"
+                    android:textSize="14sp" />
+
+                <!-- Divider -->
                 <View
-                    android:layout_width="4dp"
-                    android:layout_height="4dp"
-                    android:layout_marginHorizontal="10dp"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="24dp"
+                    android:background="#272727" />
 
-                <!-- Quality Badge -->
+                <!-- Recommended Videos Section -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="HD"
-                    android:textColor="#FFD700"
-                    android:textSize="13sp"
-                    android:fontFamily="sans-serif-bold"
-                    android:paddingHorizontal="6dp"
-                    android:paddingVertical="2dp"/>
+                    android:layout_marginTop="16dp"
+                    android:text="Recommended Videos"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <!-- Recommended Videos RecyclerView -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recommended_videos_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never" />
+
+                <!-- Loading Indicator -->
+                <ProgressBar
+                    android:id="@+id/recommended_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:indeterminateTint="#FFFFFF"
+                    android:visibility="gone" />
 
             </LinearLayout>
-
-            <!-- Genre Chips -->
-<!--            <com.google.android.material.chip.ChipGroup-->
-<!--                android:id="@+id/genre_chips"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="16dp"-->
-<!--                app:chipSpacing="8dp">-->
-
-<!--                <com.google.android.material.chip.Chip-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Action"-->
-<!--                    android:textColor="@android:color/white"-->
-<!--                    app:chipBackgroundColor="#1AFFFFFF"-->
-<!--                    app:chipStrokeWidth="0dp"-->
-<!--                    style="@style/Widget.MaterialComponents.Chip.Action"/>-->
-
-<!--                <com.google.android.material.chip.Chip-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Sci-Fi"-->
-<!--                    android:textColor="@android:color/white"-->
-<!--                    app:chipBackgroundColor="#1AFFFFFF"-->
-<!--                    app:chipStrokeWidth="0dp"-->
-<!--                    style="@style/Widget.MaterialComponents.Chip.Action"/>-->
-
-<!--                <com.google.android.material.chip.Chip-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Thriller"-->
-<!--                    android:textColor="@android:color/white"-->
-<!--                    app:chipBackgroundColor="#1AFFFFFF"-->
-<!--                    app:chipStrokeWidth="0dp"-->
-<!--                    style="@style/Widget.MaterialComponents.Chip.Action"/>-->
-
-<!--            </com.google.android.material.chip.ChipGroup>-->
-
-            <!-- Action Buttons -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal"
-                android:weightSum="2"
-                android:gravity="center">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/download_button"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="8dp"
-                    android:text="Download"
-                    android:textColor="@android:color/white"
-                    android:textSize="15sp"
-                    android:fontFamily="sans-serif-medium"
-                    app:icon="@drawable/ic_download"
-                    app:iconTint="@android:color/white"
-                    app:iconGravity="textStart"
-                    app:cornerRadius="10dp"
-                    app:strokeWidth="1dp"
-                    app:strokeColor="#33FFFFFF"
-                    app:backgroundTint="@android:color/transparent"/>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/share_button"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:layout_marginStart="8dp"
-                    android:text="Share"
-                    android:textColor="@android:color/white"
-                    android:textSize="15sp"
-                    android:fontFamily="sans-serif-medium"
-                    app:icon="@drawable/ic_share"
-                    app:iconTint="@android:color/white"
-                    app:iconGravity="textStart"
-                    app:cornerRadius="10dp"
-                    app:strokeWidth="1dp"
-                    app:strokeColor="#33FFFFFF"
-                    app:backgroundTint="@android:color/transparent"/>
-
-            </LinearLayout>
-
-            <!-- Divider -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginVertical="24dp"
-                android:background="#1AFFFFFF"/>
-
-            <!-- Description Section -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Overview"
-                android:textColor="@android:color/white"
-                android:textSize="18sp"
-                android:fontFamily="sans-serif-bold"/>
-
-            <TextView
-                android:id="@+id/movie_description_detail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:textColor="#CCFFFFFF"
-                android:textSize="15sp"
-                android:lineSpacingExtra="4dp"
-                android:fontFamily="sans-serif"
-                tools:text="This is a long description of the movie, explaining the plot, characters, and other interesting details that the user might want to read before watching."/>
-
-            <!-- Cast Section (Optional) -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="Cast Crew"
-                android:textColor="@android:color/white"
-                android:textSize="18sp"
-                android:fontFamily="sans-serif-bold"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/cast_recycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:orientation="horizontal"
-                android:clipToPadding="false"/>
-
         </LinearLayout>
-
     </androidx.core.widget.NestedScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

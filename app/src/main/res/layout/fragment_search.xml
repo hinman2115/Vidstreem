@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/accent_dark">
+    android:background="@drawable/gradient_background">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <!-- Search Bar -->
+        <!-- Glassmorphic Search Bar -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/searchCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            app:cardCornerRadius="28dp"
-            app:cardElevation="8dp"
-            app:cardBackgroundColor="@android:color/white">
+            android:backgroundTint="#40FFFFFF"
+            app:cardBackgroundColor="#40FFFFFF"
+            app:cardCornerRadius="28dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/glassmorphic_card_bg"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
+                android:paddingVertical="4dp"
                 android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:paddingVertical="4dp">
+                android:paddingEnd="20dp">
 
                 <ImageView
                     android:id="@+id/searchIcon"
@@ -36,7 +36,7 @@
                     android:layout_height="24dp"
                     android:contentDescription="@string/search_icon"
                     android:src="@drawable/ic_search"
-                    app:tint="#666666" />
+                    app:tint="#424242" />
 
                 <EditText
                     android:id="@+id/searchEditText"
@@ -44,16 +44,16 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
+                    android:fontFamily="sans-serif-medium"
                     android:hint="Search movies, shows..."
                     android:imeOptions="actionSearch"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:paddingVertical="16dp"
                     android:paddingHorizontal="12dp"
+                    android:paddingVertical="16dp"
                     android:textColor="#212121"
-                    android:textColorHint="#999999"
-                    android:textSize="16sp"
-                    android:fontFamily="sans-serif-medium" />
+                    android:textColorHint="#757575"
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -75,45 +75,69 @@
                 android:padding="32dp"
                 android:visibility="visible">
 
-                <ImageView
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:src="@drawable/ic_search"
-                    android:alpha="0.3"
-                    app:tint="@android:color/white"
-                    android:contentDescription="Search" />
+                <!-- Glassmorphic Icon Container -->
+                <FrameLayout
+                    android:layout_width="160dp"
+                    android:layout_height="160dp"
+                    android:background="@drawable/glassmorphic_circle">
+
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="Search"
+                        android:src="@drawable/ic_search"
+                        app:tint="#424242" />
+
+                </FrameLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="32dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:shadowColor="#80000000"
+                    android:shadowDx="0"
+                    android:shadowDy="2"
+                    android:shadowRadius="4"
                     android:text="Search for Movies"
-                    android:textColor="@android:color/white"
-                    android:textSize="24sp"
-                    android:fontFamily="sans-serif-medium" />
+                    android:textColor="#212121"
+                android:textSize="26sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Start typing to find your favorite content"
-                    android:textColor="#CCFFFFFF"
-                    android:textSize="14sp"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="sans-serif"
                     android:gravity="center"
-                    android:alpha="0.7" />
+                    android:text="Start typing to find your favorite content"
+                    android:textColor="#212121"
+                    android:textSize="15sp" />
 
             </LinearLayout>
 
-            <!-- Loading Indicator -->
-            <com.google.android.material.progressindicator.CircularProgressIndicator
-                android:id="@+id/progressIndicator"
+            <!-- Loading Indicator with Glassmorphic Background -->
+            <FrameLayout
+                android:id="@+id/loadingContainer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:indeterminate="true"
-                android:visibility="gone"
-                app:indicatorColor="@android:color/white"
-                app:trackColor="#33FFFFFF" />
+                android:background="@drawable/glassmorphic_circle"
+                android:padding="32dp"
+                android:visibility="gone">
+
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/progressIndicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:indeterminate="true"
+                    app:indicatorColor="#FFFFFF"
+                    app:indicatorSize="56dp"
+                    app:trackColor="#40FFFFFF"
+                    app:trackThickness="4dp" />
+
+            </FrameLayout>
 
             <!-- Empty State - No Results -->
             <LinearLayout
@@ -125,32 +149,43 @@
                 android:padding="32dp"
                 android:visibility="gone">
 
-                <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:src="@drawable/ic_search"
-                    android:alpha="0.3"
-                    app:tint="@android:color/white"
-                    android:contentDescription="No results" />
+                <FrameLayout
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:background="@drawable/glassmorphic_circle">
+
+                    <ImageView
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_gravity="center"
+                        android:alpha="0.7"
+                        android:contentDescription="No results"
+                        android:src="@drawable/ic_search"
+                        app:tint="@color/black" />
+
+                </FrameLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="28dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:shadowColor="#80000000"
+                    android:shadowDx="0"
+                    android:shadowDy="2"
+                    android:shadowRadius="4"
                     android:text="No Results Found"
-                    android:textColor="@android:color/white"
-                    android:textSize="22sp"
-                    android:fontFamily="sans-serif-medium" />
+                    android:textColor="@color/black"
+                    android:textSize="24sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Try adjusting your search terms"
-                    android:textColor="#CCFFFFFF"
-                    android:textSize="14sp"
+                    android:layout_marginTop="10dp"
                     android:gravity="center"
-                    android:alpha="0.7" />
+                    android:text="Try adjusting your search terms"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
 
             </LinearLayout>
 
@@ -160,12 +195,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
+                android:fadeScrollbars="true"
+                android:overScrollMode="never"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
                 android:paddingBottom="12dp"
-                android:visibility="gone"
                 android:scrollbars="vertical"
-                android:fadeScrollbars="true" />
+                android:visibility="gone" />
 
         </FrameLayout>
 

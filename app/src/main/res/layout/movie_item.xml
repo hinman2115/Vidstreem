@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_marginEnd="12dp"
-    android:background="?android:attr/selectableItemBackground"
+    android:background="@color/transparent"
     android:clickable="true"
     android:focusable="true">
 
@@ -13,7 +13,7 @@
         android:layout_width="140dp"
         android:layout_height="190dp"
         android:layout_marginBottom="8dp"
-        app:cardCornerRadius="5dp"
+        app:cardCornerRadius="10dp"
         app:cardElevation="10dp"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -51,12 +51,13 @@
         android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:text="Movie Title"
-        android:textColor="@android:color/white"
+        android:textColor="@color/black"
         android:textSize="14sp"
         android:textStyle="normal"
         android:maxLines="2"
         android:ellipsize="end"
         android:gravity="start"
+        android:layout_marginBottom="10dp"
         android:lineSpacingMultiplier="1.1" />
 
     <!-- Movie Description (optional, for detailed view) -->

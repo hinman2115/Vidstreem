@@ -1,5 +1,5 @@
+package com.example.vidstreem.Util
 
-import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,21 +29,20 @@ class MovieAdapter(private val onMovieClick: (Movie) -> Unit
         val movie = movies[position]
 
         holder.movieTitle.text = movie.title
-
          Glide.with(holder.itemView.context)
              .asBitmap()
              .load(movie.thumbnailUrl)
              .placeholder(R.drawable.movie_placeholder)
              .into(holder.moviePoster)
-
         holder.itemView.setOnClickListener { onMovieClick(movie) }
     }
 
     override fun getItemCount(): Int = movies.size
-
     fun updateMovies(newMovies: List<Movie>) {
         movies.clear()
-        movies.addAll(newMovies)
+        val uniqueList = newMovies.distinctBy { it.title + it.thumbnailUrl }
+
+        movies.addAll(uniqueList)
         notifyDataSetChanged()
     }
 }

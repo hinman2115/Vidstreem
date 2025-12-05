@@ -6,16 +6,7 @@
             <corners android:radius="8dp" />
         </shape>
     </item>
-    <item android:gravity="center">
-        <vector
-            android:width="48dp"
-            android:height="48dp"
-            android:viewportWidth="24"
-            android:viewportHeight="24"
-            android:tint="#666666">
-            <path
-                android:fillColor="#666666"
-                android:pathData="M8,5v14l11,-7z" />
-        </vector>
-    </item>
+    <item android:gravity="center"
+        android:drawable="@drawable/play_button_bg" />
+
 </layer-list>

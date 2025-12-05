@@ -6,82 +6,26 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/accent_dark"
+    android:background="@color/white"
     tools:context=".Ui.HomeActivity">
 
     <!-- Main Content with Scroll -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
+        android:layout_height="698dp"
         android:clipToPadding="false"
-        android:paddingBottom="100dp"
+        android:fillViewport="true"
         android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <!-- Netflix-Style Top Bar -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@android:color/transparent"
-                android:paddingTop="8dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp">
-
-                    <!-- Logo -->
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="VIDSTREEM"
-                        android:textColor="@color/accent_light"
-                        android:textSize="26sp"
-                        android:textStyle="bold"
-                        android:letterSpacing="0.1"/>
-
-                    <!-- Cast Icon -->
-
-                    <!-- Profile Icon -->
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        app:cardCornerRadius="4dp"
-                        app:cardElevation="0dp"
-                        android:backgroundTint="#E50914">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/ic_email_custom"
-                            android:background="?attr/selectableItemBackgroundBorderless"
-                            android:padding="6dp"
-                            app:tint="#FFFFFF" />
-                    </com.google.android.material.card.MaterialCardView>
-                </LinearLayout>
-
-                <!-- Category Tabs -->
-
-            </LinearLayout>
-
-            <!-- Fragment Container for Content -->
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragment_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_height="match_parent"
                 android:minHeight="500dp" />
 
         </LinearLayout>
@@ -95,26 +39,19 @@
         android:orientation="vertical"
         android:background="@android:color/transparent">
 
-        <!-- Gradient Overlay -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@drawable/bottom_nav_shadow"
-            android:alpha="0.9"/>
-
         <!-- Bottom Nav -->
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:background="@color/accent_light"
+            android:layout_height="51dp"
+            android:background="@color/white"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
-            app:menu="@menu/bottom_nav_menu"
-            app:itemIconTint="@color/accent_dark"
+            app:itemIconSize="24dp"
+            app:itemIconTint="@color/button_secondary"
             app:itemRippleColor="#40FFFFFF"
             app:labelVisibilityMode="labeled"
-            app:itemIconSize="24dp" />
+            app:menu="@menu/bottom_nav_menu" />
     </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

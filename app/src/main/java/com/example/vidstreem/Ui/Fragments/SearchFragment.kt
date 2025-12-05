@@ -1,6 +1,6 @@
 package com.example.vidstreem.Ui.Fragments
 
-import MovieAdapter
+import com.example.vidstreem.Util.MovieAdapter
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable

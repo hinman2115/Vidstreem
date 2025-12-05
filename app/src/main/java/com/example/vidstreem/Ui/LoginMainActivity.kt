@@ -7,11 +7,12 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.example.vidstreem.Data.Api.RetrofitInstance
 import com.example.vidstreem.Data.Model.LoginRequest
 import com.example.vidstreem.Data.Model.LoginResponse
@@ -21,6 +22,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -30,13 +33,14 @@ class LoginMainActivity : AppCompatActivity() {
     private lateinit var authViewModel: AuthViewModel
     private lateinit var sessionManager: SessionManager
 
+    // Keep splash screen visible while checking session
+    private var keepSplashOnScreen = true
 
     private val googleSigninLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
-    ){
-        result ->
-        if(result.resultCode == RESULT_OK){
-            val  data = result.data
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            val data = result.data
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
                 val account = task.getResult(ApiException::class.java)
@@ -52,27 +56,23 @@ class LoginMainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_login_main)
+        // Install splash screen BEFORE super.onCreate()
+        val splashScreen = installSplashScreen()
+        splashScreen.setKeepOnScreenCondition { keepSplashOnScreen }
 
-        // ✅ Initialize SessionManager
+        super.onCreate(savedInstanceState)
+
+        // Initialize SessionManager first
         sessionManager = SessionManager(this)
         authViewModel = AuthViewModel(sessionManager)
 
-        // ✅ Setup Google Sign-In
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken("489097530473-anhlve78oi3oso85l2nvg4h0hmpliet1.apps.googleusercontent.com")
-            .requestEmail()
-            .build()
-        Log.d("token",gso.toString())
-        googleSignInClient = GoogleSignIn.getClient(this, gso)
+        // Check if user is already logged in during splash
+        checkLoginStatus()
 
-        if (isLoggedIn()) {
-            startActivity(Intent(this, HomeActivity::class.java))
-            finish()
-            return
-        }
+        enableEdgeToEdge()
+        setContentView(R.layout.activity_login_main)
+
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -80,14 +80,46 @@ class LoginMainActivity : AppCompatActivity() {
             insets
         }
 
-        // ✅ Find views
+        // Setup UI elements
+        setupLoginUI()
+        setubgoogelsing()
+    }
+
+    private fun  setubgoogelsing (){
+        // Setup Google Sign-In
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken("489097530473-anhlve78oi3oso85l2nvg4h0hmpliet1.apps.googleusercontent.com")
+            .requestEmail()
+            .build()
+        Log.d("token", gso.toString())
+        googleSignInClient = GoogleSignIn.getClient(this, gso)
+    }
+    private fun checkLoginStatus() {
+        lifecycleScope.launch {
+            // Simulate initialization/checking auth (minimum 2 seconds for splash visibility)
+            delay(1500)
+
+            // Check if user is logged in
+            if (isLoggedIn()) {
+                Log.d("check this login hited","me bi token got ")
+                // User is already logged in, go to home
+                startActivity(Intent(this@LoginMainActivity, HomeActivity::class.java))
+                finish()
+            } else {
+                // User not logged in, show login screen
+                keepSplashOnScreen = false
+            }
+        }
+    }
+
+    private fun setupLoginUI() {
         val emailEditText = findViewById<EditText>(R.id.emailEditText)
         val passwordEditText = findViewById<EditText>(R.id.passwordEditText)
         val loginButton = findViewById<LinearLayout>(R.id.loginButton)
         val progressBar = findViewById<ProgressBar>(R.id.progressBar)
-        val googleSignInButton = findViewById<Button>(R.id.googleSignInButton) // Make sure you have this in XML
+        val googleSignInButton = findViewById<Button>(R.id.googleSignInButton)
 
-        // ✅ Email/Password Login
+        // Email/Password Login
         loginButton.setOnClickListener {
             val email = emailEditText.text.toString().trim()
             val password = passwordEditText.text.toString().trim()
@@ -106,8 +138,13 @@ class LoginMainActivity : AppCompatActivity() {
 
                     if (response.isSuccessful && response.body() != null) {
                         val loginResponse = response.body()!!
+                        Log.d("JWT",response.toString())
                         sessionManager.saveAuthToken(loginResponse.token)
-                        Toast.makeText(this@LoginMainActivity, "Login Successful!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@LoginMainActivity,
+                            loginResponse.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
 
                         goToHome()
                     } else {
@@ -119,12 +156,16 @@ class LoginMainActivity : AppCompatActivity() {
 
                 override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                     progressBar.visibility = View.GONE
-                    Toast.makeText(this@LoginMainActivity, "An error occurred: ${t.message}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        this@LoginMainActivity,
+                        "An error occurred: ${t.message}",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             })
         }
 
-        // ✅ Google Login Button
+        // Google Login Button
         googleSignInButton.setOnClickListener {
             signInWithGoogle()
         }
@@ -143,6 +184,7 @@ class LoginMainActivity : AppCompatActivity() {
     }
 
     private fun isLoggedIn(): Boolean {
+        Log.d("thited token work","me bi token got ")
         return sessionManager.fetchAuthToken() != null
     }
 }
